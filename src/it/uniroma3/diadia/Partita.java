@@ -16,16 +16,17 @@ public class Partita {
 	private boolean finita;
 	private Labirinto labirinto;
 	private Giocatore giocatore;
-	private Stanza stanzaCorrente;
 
 	// Costruttore di Partita
-	public Partita(){
-		this.labirinto = new Labirinto();
-		labirinto.creaLabirinto();
+	public Partita(Labirinto labirinto){
+		this.labirinto = labirinto;
 		this.giocatore = new Giocatore();
-		this.stanzaCorrente = labirinto.getStanzaIniziale();
 		this.finita = false;
 
+	}
+	
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto = labirinto;
 	}
 
 
@@ -43,7 +44,7 @@ public class Partita {
 	 * @return vero se partita vinta
 	 */
 	public boolean vinta() {
-		return this.getStanzaCorrente()== this.labirinto.getStanzaFinale();
+		return this.getStanzaCorrente()== this.labirinto.getStanzaVincente();
 	}
 
 	/**
@@ -63,11 +64,11 @@ public class Partita {
 	}
 
 	public Stanza getStanzaCorrente() {
-		return this.stanzaCorrente;
+		return this.labirinto.getStanzaCorrente();
 	}
 
 	public void setStanzaCorrente(Stanza stanza) {
-		this.stanzaCorrente = stanza;
+		this.labirinto.setStanzaCorrente(stanza);
 	}
 
 	/* metodo che verifica se i CFU del giocatore sono esauiriti. 

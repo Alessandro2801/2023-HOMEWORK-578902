@@ -32,7 +32,9 @@ public class ComandoVai implements Comando {
 			// settiamo la nuova stanza corrente del giocatore
 			else {
 				partita.setStanzaCorrente(prossimaStanza);
+				// stampo le informazione relativa alla partita in corso
 				this.io.mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
+				this.io.mostraMessaggio(partita.getGiocatore().getBorsa().getDescrizione());
 				// decrmento i cfu del giocatore in seguito allo spostamento nella nuova stanza
 				partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);
 			}

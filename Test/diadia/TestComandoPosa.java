@@ -6,34 +6,44 @@ import org.junit.Before;
 import org.junit.Test;
 
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.comando.Comando;
 import it.uniroma3.diadia.comando.ComandoPosa;
 
+
 public class TestComandoPosa {
-	Partita partita = new Partita();
+
 	Comando comando = new ComandoPosa();
-	Attrezzo attrezzo = new Attrezzo("osso", 1);
-	String nomeAttrezzo;
+	Labirinto labirinto;
+	Partita partita;
+	Attrezzo a = new Attrezzo("osso", 3);
 
 
 	@Before
 	public void setup() {
-		partita.getGiocatore().getBorsa().addAttrezzo(attrezzo);  // aggiungo l'attrezzo alla borsa del giocatore
-		this.nomeAttrezzo = this.attrezzo.getNome();
+		// creo il labirinto
+		this.labirinto = new LabirintoBuilder()
+				.addStanzaIniziale("atrio")
+				.getLabirinto();
+		
+		this.partita = new Partita(this.labirinto);
+		this.partita.getGiocatore().getBorsa().addAttrezzo(this.a);
+		
 		// effettuo l'operazione di posare l'attrezzo nella stanza corrente
-		this.comando.setParametro(this.nomeAttrezzo);
+		this.comando.setParametro(this.a.getNome());
 		this.comando.esegui(partita);
 	}
 	
 	@Test
 	public void test_ComandoPosa1() {
-		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo(this.nomeAttrezzo));
+		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo(this.a.getNome()));
 	}
 	
 	@Test
 	public void test_ComandoPosa2() {
-		assertTrue(partita.getStanzaCorrente().hasAttrezzo(this.nomeAttrezzo));
+		assertTrue(partita.getStanzaCorrente().hasAttrezzo(this.a.getNome()));
 	}
 
 }

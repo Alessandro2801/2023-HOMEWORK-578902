@@ -34,7 +34,7 @@ public class ComandoPrendi implements Comando {
 					}
 				}
 				else
-					this.io.mostraMessaggio("Impossibile posare l'attrezzo, l'attrezzo non può essere trasportato nella borsa");
+					this.io.mostraMessaggio("Impossibile prendere l'attrezzo, l'attrezzo non può essere trasportato nella borsa");
 
 			}
 			else

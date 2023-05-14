@@ -2,6 +2,8 @@ package diadia;
 
 import static org.junit.Assert.*;
 
+import java.util.*;
+
 import org.junit.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
@@ -12,6 +14,11 @@ public class TestBorsa {
 	Borsa borsa = new Borsa();
 	Attrezzo lanterna = new Attrezzo("lanterna", 7);
 	Attrezzo osso = new Attrezzo("osso", 4);
+	Attrezzo telefono = new Attrezzo("telefono", 2);
+	Attrezzo martello = new Attrezzo("martello", 3);
+	Attrezzo orologio = new Attrezzo("orologio", 4);
+	Attrezzo accendino = new Attrezzo("accendino", 2);
+	
 
 	@Test
 	public void test_getPesoMax() {
@@ -45,6 +52,8 @@ public class TestBorsa {
 		this.borsa.addAttrezzo(this.osso);  // borsa con osso peso 4
 		assertFalse(this.borsa.addAttrezzo(lanterna));
 	}
+	
+	
 	
 	@Test
 	public void test_getAttrezzo() {
@@ -84,5 +93,26 @@ public class TestBorsa {
 		this.borsa.addAttrezzo(osso);
 		assertEquals(this.osso, this.borsa.removeAttrezzo("osso"));
 	}
+	
+	@Test
+	public void test_listaOrdinataPerPeso() {
+		this.borsa.addAttrezzo(this.osso);
+		this.borsa.addAttrezzo(this.telefono);
+		this.borsa.addAttrezzo(this.martello);
+		List<Attrezzo> l = this.borsa.getContenutoOrdinatoPerPeso();
+		assertEquals("telefono", l.get(0).getNome());
+		assertEquals("martello", l.get(1).getNome());
+		assertEquals("osso", l.get(2).getNome());
+	}
+	
+	@Test
+	public void test_listaOrdinataPerNome() {
+		this.borsa.addAttrezzo(this.osso);
+		this.borsa.addAttrezzo(this.martello);
+		SortedSet<Attrezzo> l = this.borsa.getContenutoOrdinatoPerNome();
+		assertEquals("martello", l.first().getNome());
+		assertEquals("osso", l.last().getNome());
+	}
+	
 
 }

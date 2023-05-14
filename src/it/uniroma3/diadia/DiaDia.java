@@ -1,5 +1,7 @@
 package it.uniroma3.diadia;
 
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.comando.Comando;
 import it.uniroma3.diadia.comando.FabbricaDiComandiFisarmonica;
 
@@ -30,12 +32,12 @@ public class DiaDia {
 
 
 	private Partita partita;
-	private IOConsole io;
+	private IO io;
 
 	// costruttore DiaDia
-	public DiaDia() {
-		this.io = new IOConsole();
-		this.partita = new Partita();
+	public DiaDia(IO io, Labirinto labirinto) {
+		this.io = io;
+		this.partita = new Partita(labirinto);
 		
 	}
 
@@ -65,9 +67,16 @@ public class DiaDia {
 		return this.partita.isFinita();
 	}
 
-
+	
 	public static void main(String[] argc) {
-		DiaDia gioco = new DiaDia();
+		IO io = new IOConsole();
+		Labirinto labirinto = new LabirintoBuilder()
+		.addStanzaIniziale("LabCampusOne")
+		.addStanzaVincente("Biblioteca")
+		.addAdiacenza("LabCampusOne","Biblioteca","ovest")
+		.addAdiacenza("Biblioteca","LabCampusOne" ,"est" )
+		.getLabirinto();
+		DiaDia gioco = new DiaDia(io, labirinto);
 		gioco.gioca();
 	}
 }
