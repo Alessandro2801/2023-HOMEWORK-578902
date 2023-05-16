@@ -46,10 +46,22 @@ public class LabirintoBuilder {
 	}
 	
 	public LabirintoBuilder addAttrezzo(String nomeAttrezzo, int peso, String nomeStanza) {
-		Attrezzo a = new Attrezzo(nomeAttrezzo, peso);
-		Stanza s = this.stanzeDelLabirinto.get(nomeStanza);
-		s.addAttrezzo(a);
-		return this;
+		boolean esiste = false;
+		// verifico se nel labirinto è gia presente un attrezzo con questo nome
+		for(Stanza stanza : this.stanzeDelLabirinto.values()) {
+			if(stanza.hasAttrezzo(nomeAttrezzo))
+					esiste = true;
+		}
+		// se l'attrezzo non è presente in nessuna stanza del labirinto allora lo aggiungo 
+		if(!esiste) {
+			Attrezzo a = new Attrezzo(nomeAttrezzo, peso);
+			Stanza s = this.stanzeDelLabirinto.get(nomeStanza);
+			s.addAttrezzo(a);
+			return this;
+		}
+		else
+			return this;
+		
 	}
 	
 	public LabirintoBuilder addAdiacenza(String stanzaAttuale, String stanzaAdiacente, String direzione) {

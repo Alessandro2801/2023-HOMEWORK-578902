@@ -16,10 +16,12 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class Stanza{
 
-	//static final private int NUMERO_MASSIMO_DIREZIONI = 4;
+	static final private int NUMERO_MASSIMO_DIREZIONI = 4;
 	static final private int NUMERO_MASSIMO_ATTREZZI = 10;
 
 	private String nome;
+	private int numeroAttrezzi;
+	private int numeroStanzeAdiacenti;
 	private HashMap<String, Attrezzo> attrezzi;  // mappa degli attrezzi contenuti all'interno della stanza
 	private HashMap<String, Stanza> stanzeAdiacenti;  // mappa delle stanze adiacenti ad una stanza 
 	/**
@@ -28,6 +30,8 @@ public class Stanza{
 	 */
 	public Stanza(String nome) {
 		this.nome = nome;
+		this.numeroAttrezzi = 0;
+		this.numeroStanzeAdiacenti = 0;
 		this.attrezzi = new HashMap<String, Attrezzo>();
 		this.stanzeAdiacenti = new HashMap<String, Stanza>();
 	}
@@ -39,7 +43,10 @@ public class Stanza{
 	 * @param stanza stanza adiacente nella direzione indicata dal primo parametro.
 	 */
 	public void impostaStanzaAdiacente(String direzione, Stanza stanza) {
-		this.stanzeAdiacenti.put(direzione, stanza);
+		if(this.numeroStanzeAdiacenti<NUMERO_MASSIMO_DIREZIONI) {
+			this.stanzeAdiacenti.put(direzione, stanza);
+			this.numeroStanzeAdiacenti++;
+		}
 	}
 
 	/**
@@ -70,6 +77,15 @@ public class Stanza{
 	public String getDescrizione() {
 		return this.toString();
 	}
+	
+	public int getNumeroStanzeAdiacenti() {
+		return this.numeroStanzeAdiacenti;
+	}
+	
+	public int getNumeroAttrezzi() {
+		return this.numeroAttrezzi;
+	}
+
 
 	/**
 	 * Restituisce la lista di attrezzi presenti nella stanza.
@@ -78,14 +94,14 @@ public class Stanza{
 	public List<Attrezzo> getAttrezzi() {
 		List<Attrezzo> listaAttrezzi = new ArrayList<Attrezzo>(this.attrezzi.values());
 		return listaAttrezzi;
-	}
+	}	
 
 
 
 	/*metodo che verifica se è possibile aggiungere un'attrezzo alla stanza vista la capienza massima di 10 attrezzi,
 	 * restituisce un booleano, true se è possibile, false altrimenti*/
 	public boolean addIsPossible() {
-		return this.attrezzi.size() < NUMERO_MASSIMO_ATTREZZI;
+		return this.numeroAttrezzi < NUMERO_MASSIMO_ATTREZZI;
 	}
 
 	/**
@@ -95,18 +111,14 @@ public class Stanza{
 	 */
 	public boolean addAttrezzo(Attrezzo attrezzo) {
 		if (this.addIsPossible()) {
-			/* verifico se la mappa già contiene un attrezzo con questo nome,
-			 * Nella stanza npon è possibile che ci siano due attrezzi con lo stesso nome*/
-			if(!this.attrezzi.containsKey(attrezzo.getNome())) {
+			// aggiungo l'attrezzo alla stanza
 				this.attrezzi.put(attrezzo.getNome(), attrezzo); // aggiungo l'attrezzo nella mappa
-				return true;
-			}
-			else
-				return false;
+				this.numeroAttrezzi++;
+				return true;	
 		}
-		else {
+		else 
 			return false;
-		}
+		
 	}
 
 	/**
